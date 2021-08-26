@@ -2,7 +2,6 @@ const UserPassageiro = require("../models/UserPassageiro");
 const UserMotorista = require("../models/UserMotorista");
 
 const jwt = require("jsonwebtoken");
-const auth = require("../config/auth.json");
 
 module.exports = {
     async loginPassageiro(req, res) {
@@ -44,8 +43,8 @@ module.exports = {
             return res.status(401).json("Senha invalida");
         }
         const { id } = usermotorista;
-        const token = jwt.sign({ id, email }, auth.secret, {
-            expiresIn: auth.day,
+        const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
+            expiresIn: process.env.TOKEN_EXPIRATION,
         });
         return res.json({
             token,
